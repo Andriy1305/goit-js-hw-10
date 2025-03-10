@@ -6,37 +6,59 @@ import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 
 
-const formEl = document.querySelector('.form');
-const inputEl = document.querySelector('.input-delay');
+const form = document.querySelector('.form');
 
-formEl.addEventListener('submit', event => {
+form.addEventListener('submit',event=> {
   event.preventDefault();
+  const delayInput = document.querySelector('input[name="delay"]');
+  const jekState = document.querySelector('input[name="state"]:checked');
 
-  const inputValue = event.target[0].value;
-  console.log(inputValue);
 
-  const stateEl = event.target[2].checked;
-  console.log(stateEl);
+  
+  if (delayInput.value === '') {
+    iziToast.show({
+      title: 'Caution',
+      message: 'You forgot important data',
+    });
+    event.currentTarget.reset();
+    return;
+  }
 
+  
+  if (!jekState) {
+    iziToast.show({
+      title: 'Caution',
+      message: 'You forgot important data',
+    });
+    return;
+  }
+
+  const numberInput = Number(delayInput.value);
+  
   new Promise((res, rej) => {
     setTimeout(() => {
-      if (stateEl) {
-        return res();
+      if (jekState.value === "fulfilled" ) {
+         res(numberInput);
       } else {
-        rej();
+        rej(numberInput);
       }
-    }, inputValue);
+    }, numberInput);
   })
-    .then(response => {
+    .then(delay => {
+      const message = `✅ Fulfilled promise in ${delay}ms`;
+      console.log(message);
       return iziToast.success({
         title: 'OK',
-        message: `✅ Fulfilled promise in ${inputValue}ms`,
+        message: message,
       });
     })
-    .catch(error => {
+    .catch(delay => {
+      const message = `❌ Rejected promise in ${delay}ms`;
+      console.log(message);
       iziToast.error({
         title: 'Error',
-        message: `❌ Rejected promise in ${inputValue}ms`,
+        message: message,
       });
     });
+    event.currentTarget.reset();
 });
