@@ -1,18 +1,10 @@
-console.log(`Hello`);
+import flatpickr from 'flatpickr';
+import 'flatpickr/dist/flatpickr.min.css';
 
-// Описаний в документації
-import flatpickr from "flatpickr";
-// Додатковий імпорт стилів
-import "flatpickr/dist/flatpickr.min.css";
+import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
 
-// Описаний у документації
-import iziToast from "izitoast";
-// Додатковий імпорт стилів
-import "izitoast/dist/css/iziToast.min.css";
-
-
-let userSelectedDate = ``;
-
+let userSelectedDate = null;
 const options = {
   enableTime: true,
   time_24hr: true,
@@ -36,15 +28,12 @@ const options = {
   },
 };
 
-
 const imputEl = document.querySelector('#datetime-picker');
 const startBtn = document.querySelector('button');
 const daysEl = document.querySelector('.js-timer-days');
 const hoursEl = document.querySelector('.js-timer-hours');
 const minutesEl = document.querySelector('.js-timer-minutes');
 const secondsEl = document.querySelector('.js-timer-seconds');
-
-
 
 startBtn.disabled = true;
 flatpickr(imputEl, options);
@@ -87,6 +76,3 @@ startBtn.addEventListener('click', () => {
     secondsEl.textContent = addLeadingZero(seconds);
   }, 1000);
 });
-
-
-
